@@ -1,0 +1,27 @@
+<template>
+    <lightning-card title="Composite Request Results" icon-name="custom:custom63">
+        <template if:true={hasResults}>
+            <lightning-accordion>
+                <lightning-accordion-section label="Results">
+                    <div class="slds-m-around_medium">
+                        <template for:each={compositeResults} for:item="result">
+                            <div key={result.key}>
+                                <p><b>{result.key}</b>: {result.value}</p>
+                            </div>
+                        </template>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section label="Debug Logs">
+                    <div class="slds-m-around_medium">
+                        <template for:each={debugLogs} for:item="log">
+                            <p key={log}>{log}</p>
+                        </template>
+                    </div>
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </template>
+        <template if:false={hasResults}>
+            <p class="slds-m-around_medium">No Results to Display</p>
+        </template>
+    </lightning-card>
+</template>

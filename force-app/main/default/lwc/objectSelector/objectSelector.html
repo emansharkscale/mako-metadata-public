@@ -1,0 +1,77 @@
+<template>
+    <lightning-card title="Object Selector">
+        <div class="slds-var-p-around_medium">
+            <!-- Standard object dual-listboxes and checkboxes -->
+            <lightning-dual-listbox name="standardObjects" label="Select Standard Objects"
+                options={standardObjectOptions} value={selectedStandardObjects} onchange={handleStandardObjectChange}>
+            </lightning-dual-listbox>
+            <lightning-checkbox-group name="standardMetadataOptions" label="Standard Object Metadata Options" options={standardMetadataOptions}
+                value={selectedStandardMetadataOptions} onchange={handleStandardMetadataOptionChange}>
+            </lightning-checkbox-group>
+            <!-- Begin Standard Object Processing button -->
+            <lightning-button label="Begin Processing" title="Begin Processing" onclick={handleStdObjectProcessing}
+                class="slds-var-m-top_medium">
+            </lightning-button>
+
+            <!-- Loading spinner -->
+            <template if:true={loading}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+            
+            <!-- Display Metadata -->
+            <template if:true={metadataResult}>
+                <div>
+                    <h3>Metadata Result</h3>
+            
+                    <!-- Display Field Metadata -->
+                    <template if:true={metadataResult.fieldMetadata}>
+                        <h4>Field Metadata</h4>
+                        <ul>
+                            <template for:each={metadataResult.fieldMetadata} for:item="field">
+                                <li key={field}>{field}</li>
+                            </template>
+                        </ul>
+                    </template>
+            
+                    <!-- Display Validation Rules Metadata -->
+                    <template if:true={metadataResult.validationRules}>
+                        <h4>Validation Rules Metadata</h4>
+                        <ul>
+                            <template for:each={metadataResult.validationRules} for:item="rule">
+                                <li key={rule}>{rule}</li>
+                            </template>
+                        </ul>
+                    </template>
+            
+                    <!-- Display Record Types Metadata -->
+                    <template if:true={metadataResult.recordTypes}>
+                        <h4>Record Types Metadata</h4>
+                        <ul>
+                            <template for:each={metadataResult.recordTypes} for:item="rtype">
+                                <li key={rtype.Id}>Name: {rtype.Name}, Description: {rtype.Description}</li>
+                            </template>
+                        </ul>
+                    </template>
+            
+                </div>
+            </template>
+
+            <!-- Custom object dual-listboxes and checkboxes -->
+            <lightning-dual-listbox name="customObjects" label="Select Custom Objects" options={customObjectOptions}
+                value={selectedCustomObjects} onchange={handleCustomObjectChange}>
+            </lightning-dual-listbox>
+            <lightning-checkbox-group name="customMetadataOptions" label="Custom Object Metadata Options" options={customMetadataOptions}
+                value={selectedCustomMetadataOptions} onchange={handleCustomMetadataOptionChange}>
+            </lightning-checkbox-group>
+            <!-- Begin Custom Object Processing button -->
+            <lightning-button label="Begin Processing" title="Begin Processing" onclick={handleCustomObjectProcessing}
+                class="slds-var-m-top_medium">
+            </lightning-button>
+
+            
+        </div>
+    </lightning-card>
+    <!-- compositeRequestResultViewer component inclusion -->
+    <c-composite-request-result-viewer composite-results={metadataResult} debug-logs={debugLogs}>
+    </c-composite-request-result-viewer>
+</template>
